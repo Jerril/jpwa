@@ -2,7 +2,7 @@
     "name": "Jays PWA",
     "short_name": "JPWA",
     "description": "Testting out PWA",
-    "start_url": "/",
+    "start_url": "https://jerril.github.io/jpwa/",
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#4CAF50",
