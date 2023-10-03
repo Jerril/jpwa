@@ -38,7 +38,7 @@
             cursor: pointer;
         }
 
-        #install-button {
+        .install-btn {
             background-color: #4CAF50;
             color: white;
             border: none;
@@ -101,16 +101,13 @@
 
     <p>iosiosiosios</p>
 
-    <button onClick="sampleFn()">
-        Click to log a message on your browser console
-    </button>
     <!-- Install App Modal: Android -->
     <div id="install-modal" class="modal">
         <div class="modal-content">
             <span class="close" id="close-modal">&times;</span>
             <h2>Install Our App</h2>
             <p>Get the best experience by installing our app on your device.</p>
-            <button id="install-button">Install</button>
+            <button id="install-button" class="install-btn">Install</button>
         </div>
     </div>
 
@@ -119,16 +116,12 @@
         <div class="modal-content">
             <span class="close" id="close-modal">&times;</span>
             <h2>Install Our App</h2>
-            <p>Install this application on your home screen for quick, easy and offline access when you’re on the go. Close this modal, tap the “share” icon, and then tap on “Add to home screen”</p>
-            <button id="install-button-ios">Install</button>
+            <p>Install this application on your home screen for quick, easy and offline access. Close this modal, tap the “share” icon, and then tap on “Add to home screen”</p>
+            <button id="close-install-modal-ios" class="install-btn">Install</button>
         </div>
     </div>
 
     <script>
-        function sampleFn(e) {
-            console.log('Hi friend :)');
-        }
-
         function showIosInstallModal(localStorageKey) {
             // detect if the device is on iOS
             const isIos = () => {
@@ -154,18 +147,12 @@
 
             if (shouldShowModalResponse) {
                 document.getElementById('install-modal-ios').style.display = 'block';
-            }
 
-            document.getElementById('install-button-ios').addEventListener('click', () => {
-                navigator
-                    .share({
-                        title: document.title,
-                        text: 'Hello World',
-                        url: window.location.href
-                    })
-                    .then(() => console.log('Successful share! 🎉'))
-                    .catch(err => console.error(err));
-            });
+                document.getElementById('close-install-modal-ios')
+                    .addEventListener('click', () => {
+                        document.getElementById('install-modal-ios').style.display = 'none'
+                    });
+            }
 
             return shouldShowModalResponse;
         }
