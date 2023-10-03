@@ -102,7 +102,7 @@
     <button onClick="sampleFn()">
         Click to log a message on your browser console
     </button>
-    <!-- Install App Modal -->
+    <!-- Install App Modal: Android -->
     <div id="install-modal" class="modal">
         <div class="modal-content">
             <span class="close" id="close-modal">&times;</span>
@@ -112,10 +112,62 @@
         </div>
     </div>
 
+    <!-- Install App Modal: IOS -->
+    <div id="install-modal-ios" class="modal">
+        <div class="modal-content">
+            <span class="close" id="close-modal">&times;</span>
+            <h2>Install Our App</h2>
+            <p>Install this application on your home screen for quick, easy and offline access when you’re on the go. Close this modal, tap the “share” icon, and then tap on “Add to home screen”</p>
+            <button id="install-button-ios">Install</button>
+        </div>
+    </div>
+
     <script>
         function sampleFn(e) {
             console.log('Hi friend :)');
         }
+
+        function showIosInstallModal(localStorageKey) {
+            // detect if the device is on iOS
+            const isIos = () => {
+                const userAgent = window.navigator.userAgent.toLowerCase();
+                return /iphone|ipad|ipod/.test(userAgent);
+            };
+            
+            // check if the device is in standalone mode
+            const isInStandaloneMode = () => {
+                return (
+                    "standalone" in window.navigator &&
+                    window.navigator.standalone
+                );
+            };
+            
+            // show the modal only once
+            const localStorageKeyValue = localStorage.getItem(localStorageKey);
+            const iosInstallModalShown = localStorageKeyValue
+                ? JSON.parse(localStorageKeyValue)
+                : false;
+            const shouldShowModalResponse =
+                isIos() && !isInStandaloneMode() && !iosInstallModalShown;
+
+            if (shouldShowModalResponse) {
+                document.getElementById('install-modal').style.display = 'block';
+            }
+
+            document.getElementById('install-button-ios').addEventListener('click', () => {
+                navigator
+                    .share({
+                        title: document.title,
+                        text: 'Hello World',
+                        url: window.location.href
+                    })
+                    .then(() => console.log('Successful share! 🎉'))
+                    .catch(err => console.error(err));
+            });
+
+            return shouldShowModalResponse;
+        }
+        showIosInstallModal('ios-pwa');
 
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
